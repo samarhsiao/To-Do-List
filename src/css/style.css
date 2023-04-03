@@ -183,6 +183,13 @@ span{
 .is-done{
     text-decoration: line-through;
 }
+.err{
+    margin:0px;
+    text-align: center;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
 
 
 @media (min-width: 992px){
