@@ -3,6 +3,7 @@ import { AiOutlineCheck } from 'react-icons/ai';
 import { CiTrash } from "react-icons/ci";
 import { RiErrorWarningLine } from 'react-icons/ri';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 //import { Fade } from "react-awesome-reveal";
 const ToDoList = () => {
   const [today, setToday] = useState('');
@@ -23,18 +24,34 @@ const ToDoList = () => {
   type ListResponse = {
     status: string,
     message: string,
-    data: [];
+    data: [] | null;
   };
 
   const getAllLists = useCallback(async () => {
-    const { data, status } = await axios.get<ListResponse>(`${process.env.REACT_APP_API_URL}`, {
+   try{ const { data, status } = await axios.get<ListResponse>(`${process.env.REACT_APP_API_URL}`, {
       headers: {
         "Content-Type": "application/json",
       },
     });
     if (status === 200) {
-      setAllLists(data.data);
-      //console.log('55555', data);
+      if (data.data) {
+        setAllLists(data.data);
+      }
+    }}catch (err) {
+      if (axios.isAxiosError(err)) {  
+        Swal.fire({  
+            text: `${err}`,
+            icon: 'error',
+            confirmButtonColor: '#060D08',
+              
+        });
+      }else{
+        Swal.fire({
+            text: "Unexpected error",
+            icon: 'error',
+            confirmButtonColor: '#060D08',       
+        })
+      }
     }
   }, []);
 
@@ -51,25 +68,39 @@ const ToDoList = () => {
     if (!inputRef.current?.value) {
       setErrorMessage(true);
     } else {
-      const response: postData = {
+      const reqData: postData = {
         title: inputRef.current.value,
         isDone: isChecked,
       };
-      const { data, status } = await axios.post(`${process.env.REACT_APP_API_URL}`,
-        response,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
+      try {
+        const { data, status } = await axios.post(`${process.env.REACT_APP_API_URL}`,
+          reqData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (status === 200) {
+          console.log(data);
+          getAllLists();
+        } return;
+      } catch (err) {
+        if (axios.isAxiosError(err)) {  
+          Swal.fire({  
+              text: `${err}`,
+              icon: 'error',
+              confirmButtonColor: '#060D08',
+                
+          });
+        }else{
+          Swal.fire({
+              text: "Unexpected error",
+              icon: 'error',
+              confirmButtonColor: '#060D08',       
+          })
         }
-
-      );
-
-      if (status === 200) {
-        console.log(data);
-        getAllLists();
-      } return;
-
+      }
     }
   };
 

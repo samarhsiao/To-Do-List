@@ -191,6 +191,16 @@ span{
     align-items: center;
 }
 
+.swal2-popup{
+    background:rgb(236, 236, 236) !important;
+}
+
+#swal2-html-container{
+    color:#060D08;
+}
+.swal2-confirm{
+    color:white;
+}
 
 @media (min-width: 992px){
     .container {
