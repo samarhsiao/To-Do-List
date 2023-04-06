@@ -3,15 +3,18 @@ import { AiOutlineCheck } from 'react-icons/ai';
 import { CiTrash } from 'react-icons/ci';
 import { RiErrorWarningLine } from 'react-icons/ri';
 import axios from 'axios';
-import Swal from 'sweetalert2';
+import Swal, { SweetAlertOptions } from 'sweetalert2';
 //import { Fade } from "react-awesome-reveal";
 const ToDoList = () => {
   const [today, setToday] = useState('');
   const [isChecked, setIsChecked] = useState(false);
+  const [checkedAll, setCheckedAll] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [errorMessage, setErrorMessage] = useState(false);
-  const [allLists, setAllLists] = useState(Array);
+  const [allLists, setAllLists] = useState([
+    { _id: '', title: '', isDone: false },
+  ]);
 
   useEffect(() => {
     const timestamp = Date.now();
@@ -38,7 +41,7 @@ const ToDoList = () => {
   const getAllLists = useCallback(async () => {
     try {
       const { data, status } = await axios.get<ListResponse>(
-        `${process.env.REACT_APP_API_URL}`,
+        `${process.env.REACT_APP_API_URL}/api/todos`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -86,7 +89,7 @@ const ToDoList = () => {
       };
       try {
         const { data, status } = await axios.post(
-          `${process.env.REACT_APP_API_URL}`,
+          `${process.env.REACT_APP_API_URL}/api/todos`,
           reqData,
           {
             headers: {
@@ -94,9 +97,10 @@ const ToDoList = () => {
             },
           },
         );
-        if (status === 200) {
-          console.log(data);
+        if (status === 201) {
+          //console.log(data);
           getAllLists();
+          inputRef.current.value=''
         }
         return;
       } catch (err) {
@@ -122,37 +126,50 @@ const ToDoList = () => {
       <div className="wrapper col-lg-5 col-md-7 col-12">
         <div className="col-12">
           <div className="today">&#x1F9AD;{` Happy ${today} !`}</div>
+          <div className="checkbox" id="select-all">
+            <input type="checkbox" />
+            <label>
+              <span className="checkbox-mask"></span>
+              <span className="">Select All</span>
+            </label>
+          </div>
           <ul className="todo-list ui-sortable">
-            {!isDeleted && (
-              <li className="col-8 col-md-9">
-                <div
-                  className="checkbox"
-                  onClick={() => {
-                    setIsChecked((val) => !val);
-                  }}
-                >
-                  {isChecked && (
-                    <AiOutlineCheck style={{ position: 'absolute' }} />
-                  )}
-                  <input type="checkbox" />
-                  <label>
-                    <span className="checkbox-mask"></span>
-                    <span className={isChecked ? 'is-done' : ''}>
-                      take rest take rest take rest
-                    </span>
-                  </label>
-                </div>
-                <CiTrash
-                  style={{ width: '1.3em', height: '1.3em', margin: '0px 4px' }}
-                  onClick={() => {
-                    setIsDeleted(true);
-                  }}
-                />
-              </li>
-            )}
+            {allLists.map((v,i) => {
+              return (
+                !isDeleted && (
+                  <li className="col-10" key={v._id}>
+                    <div
+                      className="checkbox"
+                      onClick={() => {
+                        setIsChecked((val) => !val);
+                      }}
+                    >
+                      {isChecked && (
+                        <AiOutlineCheck style={{ position: 'absolute' }} />
+                      )}
+                      <input type="checkbox" />
+                      <label>
+                        <span className="checkbox-mask"></span>
+                        <span className={`task-item ${v.isDone ? 'is-done' : ''}`}>{v.title}
+                        </span>
+                      </label>
+                    </div>
+                    <CiTrash
+                      style={{
+                        width: '1.3em',
+                        height: '1.3em',
+                      }}
+                      onClick={() => {
+                        setIsDeleted(true);
+                      }}
+                    />
+                  </li>
+                )
+              );
+            })}
           </ul>
           <div className="add-control">
-            <div className="form-group d-flex">
+            <div className="form-group d-flex col-10">
               <span className="add-icon"></span>
               <textarea
                 rows={3}

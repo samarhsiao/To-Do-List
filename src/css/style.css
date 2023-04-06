@@ -1,206 +1,231 @@
 .container {
-  padding-top: 75px;
+    padding-top: 75px;
 }
+
 .wrapper {
-  background: #060d08;
-  padding: 20px;
-  border: 0.6px solid rgb(225, 223, 223);
-  border-radius: 12px;
-  margin: 0 auto;
+    background: #060d08;
+    padding: 20px;
+    border: 0.6px solid rgb(225, 223, 223);
+    border-radius: 12px;
+    margin: 0 auto;
 }
+
 .container .today {
-  color: white;
-  font-size: 22px;
-  padding: 0 15px;
-  font-weight: 700;
+    color: white;
+    font-size: 22px;
+    padding: 0 15px;
+    font-weight: 700;
 }
+
 div {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-  justify-content: center;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    justify-content: center;
 }
+
 .add-control {
-  margin-top: 25px;
-  position: relative;
+    margin-top: 25px;
+    position: relative;
 }
+
 .add-item {
-  background: #060d08;
-  color: rgb(225, 223, 223);
-  resize: none;
-  border: none;
+    background: #060d08;
+    color: rgb(225, 223, 223);
+    resize: none;
+    border: none;
 }
+
 .add-item:focus {
-  outline: none;
+    outline: none;
 }
+
 .add-item::-webkit-scrollbar {
-  display: none;
+    display: none;
 }
 
 .form-group {
-  padding: 0px 15px;
-  align-items: baseline;
-  justify-content: flex-start;
+    padding: 0px 0px 0px 15px;
+    align-items: baseline;
+    justify-content: space-between;
 }
+
 .buttonWrapper {
-  padding: 10px 15px 10px 29px;
-  display: flex;
-  justify-content: flex-start;
+    padding: 10px 15px 10px 29px;
+    display: flex;
+    justify-content: flex-start;
 }
+
 .form-group input {
-  background: #060d08;
-  border: none;
-  margin-bottom: 7px;
-  position: relative;
-  word-break: break-word;
+    background: #060d08;
+    border: none;
+    margin-bottom: 7px;
+    position: relative;
+    word-break: break-word;
 }
+
 input::placeholder {
-  color: white;
-  opacity: 0.3;
+    color: white;
+    opacity: 0.3;
 }
 
 .add-icon {
-  width: 14px;
-  height: 14px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: rgb(225, 223, 223);
-  font-size: 14px;
-  border-radius: 13.18px;
-  border: 1px transparent;
-  box-sizing: border-box;
-  position: relative;
-  margin-right: 5px;
+    width: 14px;
+    height: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(225, 223, 223);
+    font-size: 14px;
+    border-radius: 13.18px;
+    border: 1px transparent;
+    box-sizing: border-box;
+    position: relative;
+    margin-right: 5px;
 }
+
 .add-icon::before {
-  content: '';
-  position: absolute;
-  width: 14px;
-  border-top: 1px solid;
+    content: '';
+    position: absolute;
+    width: 14px;
+    border-top: 1px solid;
 }
 
 .add-icon::after {
-  content: '';
-  position: absolute;
-  height: 14px;
-  border-left: 1px solid;
+    content: '';
+    position: absolute;
+    height: 14px;
+    border-left: 1px solid;
 }
 
 ul {
-  list-style: none;
-  padding-left: 0px !important;
+    list-style: none;
+    padding-left: 0px !important;
 }
 
 .todo-list {
-  margin: 20px 0;
+    margin: 20px 0;
 }
 
 .todo-list li {
-  background: transparent;
-  border-radius: 5px;
-  margin-bottom: 7px;
-  position: relative;
-  word-break: break-word;
-  display: flex;
-  align-items: center;
+    background: transparent;
+    border-radius: 5px;
+    margin-bottom: 7px;
+    position: relative;
+    word-break: break-word;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 label {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
 }
 
 .checkbox label {
-  min-height: 20px;
-  padding-left: 20px;
-  margin-bottom: 0;
-  font-weight: 400;
-  cursor: pointer;
+    min-height: 20px;
+    padding-left: 20px;
+    margin-bottom: 0;
+    font-weight: 400;
+    cursor: pointer;
 }
 
 .todo-list li label {
-  display: block;
-  padding-right: 10px;
+    display: block;
+    padding-right: 10px;
 }
 
-.todo-list li .checkbox {
-  margin: 0;
-  padding: 10px 15px;
-  border-radius: 5px;
+#select-all {
+    padding: 30px 15px 0px;
 }
 
-.todo-list li label .checkbox-mask {
-  display: block;
-  border: 1px solid rgb(225, 223, 223);
-  width: 14px;
-  height: 14px;
-  border-radius: 2.5px;
-  position: absolute;
-  margin-left: -20px;
-  margin-top: 4px;
+.checkbox {
+    margin: 0;
+    padding: 10px 15px;
+    border-radius: 5px;
 }
 
-.todo-list li input[type='checkbox'] {
-  visibility: hidden;
-  position: absolute;
-  margin-left: -20px;
+label .checkbox-mask {
+    display: block;
+    border: 1px solid rgb(225, 223, 223);
+    width: 14px;
+    height: 14px;
+    border-radius: 2.5px;
+    position: absolute;
+    margin-left: -20px;
+    margin-top: 4px;
 }
+.task-item{
+    padding:0px 4px;
+}
+
+input[type="checkbox"] {
+    visibility: hidden;
+    position: absolute;
+    margin-left: -20px;
+}
+
 span {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
 }
+
 .add-button {
-  border-radius: 4.6px;
-  background: rgb(225, 223, 223);
-  font-weight: bold;
-  color: #060d08;
-  min-width: 65px;
-  padding: 6px;
-  text-align: center;
-  cursor: pointer;
+    border-radius: 4.6px;
+    background: rgb(225, 223, 223);
+    font-weight: bold;
+    color: #060D08;
+    min-width: 65px;
+    padding: 6px;
+    text-align: center;
+    cursor: pointer;
 }
+
 .add-button:hover {
-  background: #060d08;
-  color: rgb(225, 223, 223);
-  border: 0.6px solid rgb(225, 223, 223);
+    background: #060D08;
+    color: rgb(225, 223, 223);
+    border: .6px solid rgb(225, 223, 223);
 }
+
 .is-done {
-  text-decoration: line-through;
+    text-decoration: line-through;
 }
+
 .err {
-  margin: 0px;
-  text-align: center;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
+    margin: 0px;
+    text-align: center;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
 }
 
 .swal2-popup {
-  background: rgb(236, 236, 236) !important;
+    background: rgb(236, 236, 236) !important;
 }
 
 #swal2-html-container {
-  color: #060d08;
+    color: #060D08;
 }
+
 .swal2-confirm {
-  color: white;
+    color: white;
 }
 
 @media (min-width: 992px) {
-  .container {
-    width: 100%;
-    max-width: 1150px;
-  }
+    .container {
+        width: 100%;
+        max-width: 1150PX;
+    }
 }
