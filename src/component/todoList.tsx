@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { AiOutlineCheck } from 'react-icons/ai';
-import { CiTrash } from 'react-icons/ci';
 import { RiErrorWarningLine } from 'react-icons/ri';
 import axios from 'axios';
-import Swal, { SweetAlertOptions } from 'sweetalert2';
+import Swal from 'sweetalert2';
+import ListItem from './listItem';
+import { ToDoItem } from '../types/toDoItem';
 //import { Fade } from "react-awesome-reveal";
 const ToDoList = () => {
   const [today, setToday] = useState('');
@@ -12,9 +12,11 @@ const ToDoList = () => {
   const [isDeleted, setIsDeleted] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [errorMessage, setErrorMessage] = useState(false);
-  const [allLists, setAllLists] = useState([
-    { _id: '', title: '', isDone: false },
-  ]);
+  const [allLists, setAllLists] = useState<ToDoItem[]>([{
+    _id: '', 
+    title: '', 
+    isDone: false 
+  }]);
 
   useEffect(() => {
     const timestamp = Date.now();
@@ -134,36 +136,10 @@ const ToDoList = () => {
             </label>
           </div>
           <ul className="todo-list ui-sortable">
-            {allLists.map((v,i) => {
+            {allLists.map((item,i) => {
               return (
-                !isDeleted && (
-                  <li className="col-10" key={v._id}>
-                    <div
-                      className="checkbox"
-                      onClick={() => {
-                        setIsChecked((val) => !val);
-                      }}
-                    >
-                      {isChecked && (
-                        <AiOutlineCheck style={{ position: 'absolute' }} />
-                      )}
-                      <input type="checkbox" />
-                      <label>
-                        <span className="checkbox-mask"></span>
-                        <span className={`task-item ${v.isDone ? 'is-done' : ''}`}>{v.title}
-                        </span>
-                      </label>
-                    </div>
-                    <CiTrash
-                      style={{
-                        width: '1.3em',
-                        height: '1.3em',
-                      }}
-                      onClick={() => {
-                        setIsDeleted(true);
-                      }}
-                    />
-                  </li>
+                (
+                  <ListItem key={`${item._id}_${i}`} isChecked={isChecked} setIsChecked={setIsChecked} isDeleted={isDeleted} setIsDeleted={setIsDeleted} item={item}/>
                 )
               );
             })}
@@ -192,7 +168,6 @@ const ToDoList = () => {
           </div>
           {errorMessage && (
             <div className="err text-danger">
-              {' '}
               <RiErrorWarningLine style={{ width: '1.1em', height: '1.1em' }} />
               &nbsp;Oops! Please, enter name item
             </div>
