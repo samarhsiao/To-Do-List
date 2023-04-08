@@ -4,6 +4,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import ListItem from './listItem';
 import { ToDoItem } from '../types/toDoItem';
+import { ApiResponse, ApiReqData } from '../types/apiResponse';
 //import { Fade } from "react-awesome-reveal";
 const ToDoList = () => {
   const [today, setToday] = useState('');
@@ -12,11 +13,13 @@ const ToDoList = () => {
   const [isDeleted, setIsDeleted] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [errorMessage, setErrorMessage] = useState(false);
-  const [allLists, setAllLists] = useState<ToDoItem[]>([{
-    _id: '', 
-    title: '', 
-    isDone: false 
-  }]);
+  const [allLists, setAllLists] = useState<ToDoItem[]>([
+    {
+      _id: '',
+      title: '',
+      isDone: false,
+    },
+  ]);
 
   useEffect(() => {
     const timestamp = Date.now();
@@ -34,15 +37,9 @@ const ToDoList = () => {
     setToday(dayArray[index]);
   }, []);
 
-  type ListResponse = {
-    status: string;
-    message: string;
-    data: [] | null;
-  };
-
   const getAllLists = useCallback(async () => {
     try {
-      const { data, status } = await axios.get<ListResponse>(
+      const { data, status } = await axios.get<ApiResponse>(
         `${process.env.REACT_APP_API_URL}/api/todos`,
         {
           headers: {
@@ -76,21 +73,16 @@ const ToDoList = () => {
     getAllLists();
   }, [getAllLists]);
 
-  type postData = {
-    title: string;
-    isDone: boolean;
-  };
-
   const addToList = async () => {
     if (!inputRef.current?.value) {
       setErrorMessage(true);
     } else {
-      const reqData: postData = {
+      const reqData: ApiReqData = {
         title: inputRef.current.value,
         isDone: isChecked,
       };
       try {
-        const { data, status } = await axios.post(
+        const { status } = await axios.post(
           `${process.env.REACT_APP_API_URL}/api/todos`,
           reqData,
           {
@@ -102,7 +94,7 @@ const ToDoList = () => {
         if (status === 201) {
           //console.log(data);
           getAllLists();
-          inputRef.current.value=''
+          inputRef.current.value = '';
         }
         return;
       } catch (err) {
@@ -136,11 +128,19 @@ const ToDoList = () => {
             </label>
           </div>
           <ul className="todo-list ui-sortable">
-            {allLists.map((item,i) => {
+            {allLists.map((item, i) => {
               return (
-                (
-                  <ListItem key={`${item._id}_${i}`} isChecked={isChecked} setIsChecked={setIsChecked} isDeleted={isDeleted} setIsDeleted={setIsDeleted} item={item}/>
-                )
+                <ListItem
+                  key={`${item._id}_${i}`}
+                  isChecked={isChecked}
+                  setIsChecked={setIsChecked}
+                  isDeleted={isDeleted}
+                  setIsDeleted={setIsDeleted}
+                  item={item}
+                  setAllLists={setAllLists}
+                  allLists={allLists}
+                  getAllLists={getAllLists}
+                />
               );
             })}
           </ul>

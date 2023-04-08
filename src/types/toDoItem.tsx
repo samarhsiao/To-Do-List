@@ -1,5 +1,5 @@
 export interface ToDoItem { 
-    _id: '', 
-    title: '', 
-    isDone: false 
+    _id: string, 
+    title: string, 
+    isDone: boolean 
 }
