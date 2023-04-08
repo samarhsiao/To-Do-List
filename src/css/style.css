@@ -222,6 +222,10 @@ span {
 .swal2-confirm {
     color: white;
 }
+.flex-baseline{
+    display: flex;
+    align-items: baseline;
+}
 
 @media (min-width: 992px) {
     .container {

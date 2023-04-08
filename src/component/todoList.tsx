@@ -145,17 +145,19 @@ const ToDoList = () => {
             })}
           </ul>
           <div className="add-control">
-            <div className="form-group d-flex col-10">
-              <span className="add-icon"></span>
-              <textarea
-                rows={3}
-                className="add-item"
-                placeholder="Enter task,ideas..."
-                ref={inputRef}
-                onChange={() => {
-                  setErrorMessage(false);
-                }}
-              />
+            <div className="form-group flex-baseline col-10">
+              <div className="flex-baseline">
+                <span className="add-icon"></span>
+                <textarea
+                  rows={3}
+                  className="add-item"
+                  placeholder="Enter task,ideas..."
+                  ref={inputRef}
+                  onChange={() => {
+                    setErrorMessage(false);
+                  }}
+                />
+              </div>
               <div
                 className="add-button"
                 onClick={() => {
