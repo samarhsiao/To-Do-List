@@ -52,6 +52,7 @@ const ToDoList = () => {
           setAllLists(data.data);
         }
       }
+      return;
     } catch (err) {
       if (axios.isAxiosError(err)) {
         Swal.fire({
@@ -115,19 +116,60 @@ const ToDoList = () => {
     }
   };
 
+  const deleteAllItems = async () => {
+    try {
+      const { status } = await axios.delete<ApiResponse>(
+        `${process.env.REACT_APP_API_URL}/api/todos/:id`,
+      );
+      if (status === 200) {
+        getAllLists();
+      }
+      return;
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        Swal.fire({
+          text: `${err}`,
+          icon: 'error',
+          confirmButtonColor: '#060D08',
+        });
+      } else {
+        Swal.fire({
+          text: 'Unexpected error',
+          icon: 'error',
+          confirmButtonColor: '#060D08',
+        });
+      }
+    }
+  };
+
   return (
     <div className="container">
-      <div className="wrapper col-lg-5 col-md-7 col-12">
+      <div className="wrapper col-lg-5 col-md-7 col-12 ">
         <div className="col-12">
           <div className="today">&#x1F9AD;{` Happy ${today} !`}</div>
-          <div className="checkbox" id="select-all">
-            <input type="checkbox" />
-            <label>
-              <span className="checkbox-mask"></span>
-              <span className="">Select All</span>
-            </label>
+          <div className="buttonWrapper col-12 col-md-10">
+            <div
+              className="delete button"
+              onClick={() => {
+                Swal.fire({
+                  title: 'Delete all the items?',
+                  showCancelButton: true,
+                  confirmButtonText: 'Yes',
+                  confirmButtonColor: '#060D08',
+                }).then((result) => {
+                  /* Read more about isConfirmed, isDenied below */
+                  if (result.isConfirmed) {
+                    deleteAllItems();
+                  } else if (result.isDenied) {
+                    Swal.fire('Changes are not saved', '', 'info');
+                  }
+                });
+              }}
+            >
+              Del All
+            </div>
           </div>
-          <ul className="todo-list ui-sortable">
+          <ul className="todo-list ui-sortable col-12 col-md-10">
             {allLists.map((item, i) => {
               return (
                 <ListItem
@@ -144,8 +186,8 @@ const ToDoList = () => {
               );
             })}
           </ul>
-          <div className="add-control">
-            <div className="form-group flex-baseline col-10">
+          <div className="add-control col-12 col-md-10">
+            <div className="form-group flex-baseline">
               <div className="flex-baseline">
                 <span className="add-icon"></span>
                 <textarea
@@ -159,7 +201,7 @@ const ToDoList = () => {
                 />
               </div>
               <div
-                className="add-button"
+                className="add button"
                 onClick={() => {
                   addToList();
                 }}

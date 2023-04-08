@@ -12,32 +12,37 @@ interface Props {
   item: ToDoItem;
   setAllLists: (allLists: ToDoItem[]) => void;
   allLists: ToDoItem[];
-  getAllLists:()=>void
+  getAllLists: () => void;
 }
 export default function ListItem({
   setIsDeleted,
   item,
-  getAllLists
+  getAllLists,
+  isChecked,
+  setIsChecked,
 }: Props) {
   const checkItem = async function (item: ToDoItem) {
-    try {const reqData: ApiReqData = {
-      title: item.title,
-      isDone: item.isDone,
-    };
-    const { status } = await axios.put<ApiResponse>(
-      `${process.env.REACT_APP_API_URL}/api/todos/:${item._id}`,
-      reqData,
-      {
-        headers: {
-          'Content-Type': 'application/json',
+    try {
+      const reqData: ApiReqData = {
+        title: item.title,
+        isDone: item.isDone,
+      };
+      const { status } = await axios.put<ApiResponse>(
+        `${process.env.REACT_APP_API_URL}/api/todos/:${item._id}`,
+        reqData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
         },
-      },
-    );
+      );
 
-    if (status === 200) {
-      //console.log('check response', data);
-      getAllLists();
-    }}catch (err) {
+      if (status === 200) {
+        //console.log('check response', data);
+        getAllLists();
+      }
+      return;
+    } catch (err) {
       if (axios.isAxiosError(err)) {
         Swal.fire({
           text: `${err}`,
@@ -54,7 +59,7 @@ export default function ListItem({
     }
   };
   return (
-    <li className="col-10">
+    <li>
       <div className="checkbox" onClick={() => checkItem(item)}>
         {item.isDone && <AiOutlineCheck style={{ position: 'absolute' }} />}
         <input type="checkbox" />
