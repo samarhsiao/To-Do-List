@@ -21,12 +21,12 @@ export default function ListItem({
   isChecked,
   setIsChecked,
 }: Props) {
-  
+
   const checkItem = async function (item: ToDoItem) {
     try {
       const reqData: ApiReqData = {
         title: item.title,
-        isDone: item.isDone,
+        isDone: !item.isDone,
       };
       const { status } = await axios.put<ApiResponse>(
         `${process.env.REACT_APP_API_URL}/api/todos/${item._id}`,
@@ -59,6 +59,14 @@ export default function ListItem({
       }
     }
   };
+
+  const deleteItem = async(id:string) => {
+    const { status } = await axios.delete<ApiResponse>(`${process.env.REACT_APP_API_URL}/api/todos/${id}`)
+    if (status === 200) {
+      getAllLists();
+    }
+  }
+
   return (
     <li>
       <div className="checkbox" onClick={() => checkItem(item)}>
@@ -75,9 +83,11 @@ export default function ListItem({
         style={{
           width: '1.3em',
           height: '1.3em',
+          cursor:"pointer",
         }}
+
         onClick={() => {
-          setIsDeleted(true);
+          deleteItem(item._id);
         }}
       />
     </li>

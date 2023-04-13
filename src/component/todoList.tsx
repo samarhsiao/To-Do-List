@@ -13,13 +13,7 @@ const ToDoList = () => {
   const [isDeleted, setIsDeleted] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [errorMessage, setErrorMessage] = useState(false);
-  const [allLists, setAllLists] = useState<ToDoItem[]>([
-    {
-      _id: '',
-      title: '',
-      isDone: false,
-    },
-  ]);
+  const [allLists, setAllLists] = useState<ToDoItem[]>([]);
 
   useEffect(() => {
     const timestamp = Date.now();
@@ -148,7 +142,7 @@ const ToDoList = () => {
         <div className="col-12">
           <div className="today">&#x1F9AD;{` Happy ${today} !`}</div>
           <div className="buttonWrapper col-12 col-md-10">
-            <div
+            {allLists.length!==0 && <div
               className="delete button"
               onClick={() => {
                 Swal.fire({
@@ -160,17 +154,15 @@ const ToDoList = () => {
                   /* Read more about isConfirmed, isDenied below */
                   if (result.isConfirmed) {
                     deleteAllItems();
-                  } else if (result.isDenied) {
-                    Swal.fire('Changes are not saved', '', 'info');
                   }
                 });
               }}
             >
               Del All
-            </div>
+            </div>}
           </div>
           <ul className="todo-list ui-sortable col-12 col-md-10">
-            {allLists.map((item, i) => {
+            {allLists.length!==0 && allLists.map((item, i) => {
               return (
                 <ListItem
                   key={`${item._id}_${i}`}
