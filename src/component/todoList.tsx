@@ -10,14 +10,9 @@ const ToDoList = () => {
   const [today, setToday] = useState('');
   const [isChecked, setIsChecked] = useState(false);
   const [checkedAll, setCheckedAll] = useState(false);
-  const [isDeleted, setIsDeleted] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [errorMessage, setErrorMessage] = useState(false);
   const [allLists, setAllLists] = useState<ToDoItem[]>([]);
-
-  useEffect(()=>{
-    return console.log(900)
-  },[])
 
   useEffect(() => {
     const timestamp = Date.now();
@@ -146,41 +141,42 @@ const ToDoList = () => {
         <div className="col-12">
           <div className="today">&#x1F9AD;{` Happy ${today} !`}</div>
           <div className="buttonWrapper col-12 col-md-10">
-            {allLists.length!==0 && <div
-              className="delete button"
-              onClick={() => {
-                Swal.fire({
-                  title: 'Delete all the items?',
-                  showCancelButton: true,
-                  confirmButtonText: 'Yes',
-                  confirmButtonColor: '#060D08',
-                }).then((result) => {
-                  /* Read more about isConfirmed, isDenied below */
-                  if (result.isConfirmed) {
-                    deleteAllItems();
-                  }
-                });
-              }}
-            >
-              Del All
-            </div>}
+            {allLists.length !== 0 && (
+              <div
+                className="delete button"
+                onClick={() => {
+                  Swal.fire({
+                    title: 'Delete all the items?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    confirmButtonColor: '#060D08',
+                  }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                      deleteAllItems();
+                    }
+                  });
+                }}
+              >
+                Del All
+              </div>
+            )}
           </div>
           <ul className="todo-list ui-sortable col-12 col-md-10">
-            {allLists.length!==0 && allLists.map((item, i) => {
-              return (
-                <ListItem
-                  key={`${item._id}_${i}`}
-                  isChecked={isChecked}
-                  setIsChecked={setIsChecked}
-                  isDeleted={isDeleted}
-                  setIsDeleted={setIsDeleted}
-                  item={item}
-                  setAllLists={setAllLists}
-                  allLists={allLists}
-                  getAllLists={getAllLists}
-                />
-              );
-            })}
+            {allLists.length !== 0 &&
+              allLists.map((item, i) => {
+                return (
+                  <ListItem
+                    key={`${item._id}_${i}`}
+                    isChecked={isChecked}
+                    setIsChecked={setIsChecked}
+                    item={item}
+                    setAllLists={setAllLists}
+                    allLists={allLists}
+                    getAllLists={getAllLists}
+                  />
+                );
+              })}
           </ul>
           <div className="add-control col-12 col-md-10">
             <div className="form-group flex-baseline">

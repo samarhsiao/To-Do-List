@@ -7,21 +7,15 @@ import Swal from 'sweetalert2';
 interface Props {
   isChecked: boolean;
   setIsChecked: (isChecked: boolean) => void;
-  isDeleted: boolean;
-  setIsDeleted: (isDeleted: boolean) => void;
   item: ToDoItem;
   setAllLists: (allLists: ToDoItem[]) => void;
   allLists: ToDoItem[];
   getAllLists: () => void;
 }
 export default function ListItem({
-  setIsDeleted,
   item,
   getAllLists,
-  isChecked,
-  setIsChecked,
 }: Props) {
-
   const checkItem = async function (item: ToDoItem) {
     try {
       const reqData: ApiReqData = {
@@ -60,12 +54,14 @@ export default function ListItem({
     }
   };
 
-  const deleteItem = async(id:string) => {
-    const { status } = await axios.delete<ApiResponse>(`${process.env.REACT_APP_API_URL}/api/todos/${id}`)
+  const deleteItem = async (id: string) => {
+    const { status } = await axios.delete<ApiResponse>(
+      `${process.env.REACT_APP_API_URL}/api/todos/${id}`,
+    );
     if (status === 200) {
       getAllLists();
     }
-  }
+  };
 
   return (
     <li>
@@ -83,9 +79,8 @@ export default function ListItem({
         style={{
           width: '1.3em',
           height: '1.3em',
-          cursor:"pointer",
+          cursor: 'pointer',
         }}
-
         onClick={() => {
           deleteItem(item._id);
         }}
