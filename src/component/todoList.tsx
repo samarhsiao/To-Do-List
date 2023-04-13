@@ -119,7 +119,7 @@ const ToDoList = () => {
   const deleteAllItems = async () => {
     try {
       const { status } = await axios.delete<ApiResponse>(
-        `${process.env.REACT_APP_API_URL}/api/todos/:id`,
+        `${process.env.REACT_APP_API_URL}/api/todos`,
       );
       if (status === 200) {
         getAllLists();

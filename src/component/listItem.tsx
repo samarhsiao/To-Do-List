@@ -21,6 +21,7 @@ export default function ListItem({
   isChecked,
   setIsChecked,
 }: Props) {
+  
   const checkItem = async function (item: ToDoItem) {
     try {
       const reqData: ApiReqData = {
@@ -28,7 +29,7 @@ export default function ListItem({
         isDone: item.isDone,
       };
       const { status } = await axios.put<ApiResponse>(
-        `${process.env.REACT_APP_API_URL}/api/todos/:${item._id}`,
+        `${process.env.REACT_APP_API_URL}/api/todos/${item._id}`,
         reqData,
         {
           headers: {
