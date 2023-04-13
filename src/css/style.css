@@ -13,7 +13,7 @@
 .container .today {
   color: white;
   font-size: 22px;
-  padding: 0 15px;
+  
   font-weight: 700;
   margin-bottom: 30px;
 }
@@ -48,7 +48,7 @@ div {
 }
 
 .form-group {
-  padding: 0px 0px 0px 15px;
+  padding: 0px;
   align-items: baseline;
   justify-content: space-between;
 }
@@ -145,7 +145,7 @@ label {
 
 .checkbox {
   margin: 0;
-  padding: 10px 15px;
+  padding: 10px 15px 10px 0px;
   border-radius: 5px;
 }
 
@@ -212,9 +212,10 @@ span {
   border: 0.6px solid rgb(225, 223, 223);
 }
 .buttonWrapper {
-  padding: 0px 0px 0px 15px;
+  padding: 0px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
+  margin-bottom: 10px;
 }
 
 .is-done {

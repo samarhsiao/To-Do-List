@@ -5,11 +5,7 @@ import { ApiResponse, ApiReqData } from '../types/apiResponse';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 interface Props {
-  isChecked: boolean;
-  setIsChecked: (isChecked: boolean) => void;
   item: ToDoItem;
-  setAllLists: (allLists: ToDoItem[]) => void;
-  allLists: ToDoItem[];
   getAllLists: () => void;
 }
 export default function ListItem({

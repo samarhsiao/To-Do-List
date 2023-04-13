@@ -5,10 +5,10 @@ import Swal from 'sweetalert2';
 import ListItem from './listItem';
 import { ToDoItem } from '../types/toDoItem';
 import { ApiResponse, ApiReqData } from '../types/apiResponse';
+import Searchbar from './searchbar';
 //import { Fade } from "react-awesome-reveal";
 const ToDoList = () => {
   const [today, setToday] = useState('');
-  const [isChecked, setIsChecked] = useState(false);
   const [checkedAll, setCheckedAll] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [errorMessage, setErrorMessage] = useState(false);
@@ -73,7 +73,7 @@ const ToDoList = () => {
     } else {
       const reqData: ApiReqData = {
         title: inputRef.current.value,
-        isDone: isChecked,
+        isDone: false,
       };
       try {
         const { status } = await axios.post(
@@ -140,7 +140,20 @@ const ToDoList = () => {
       <div className="wrapper col-lg-5 col-md-7 col-12 ">
         <div className="col-12">
           <div className="today">&#x1F9AD;{` Happy ${today} !`}</div>
-          <div className="buttonWrapper col-12 col-md-10">
+          <Searchbar/>
+          <ul className="todo-list ui-sortable col-11 col-md-9">
+            {allLists.length !== 0 &&
+              allLists.map((item, i) => {
+                return (
+                  <ListItem
+                    key={`${item._id}_${i}`}
+                    item={item}
+                    getAllLists={getAllLists}
+                  />
+                );
+              })}
+          </ul>
+          <div className="buttonWrapper col-11 col-md-9">
             {allLists.length !== 0 && (
               <div
                 className="delete button"
@@ -162,26 +175,10 @@ const ToDoList = () => {
               </div>
             )}
           </div>
-          <ul className="todo-list ui-sortable col-12 col-md-10">
-            {allLists.length !== 0 &&
-              allLists.map((item, i) => {
-                return (
-                  <ListItem
-                    key={`${item._id}_${i}`}
-                    isChecked={isChecked}
-                    setIsChecked={setIsChecked}
-                    item={item}
-                    setAllLists={setAllLists}
-                    allLists={allLists}
-                    getAllLists={getAllLists}
-                  />
-                );
-              })}
-          </ul>
-          <div className="add-control col-12 col-md-10">
+          <div className="add-control col-11 col-md-9">
             <div className="form-group flex-baseline">
               <div className="flex-baseline">
-                <span className="add-icon"></span>
+                {/* <span className="add-icon"></span> */}
                 <textarea
                   rows={3}
                   className="add-item"
