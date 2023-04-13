@@ -15,6 +15,10 @@ const ToDoList = () => {
   const [errorMessage, setErrorMessage] = useState(false);
   const [allLists, setAllLists] = useState<ToDoItem[]>([]);
 
+  useEffect(()=>{
+    return console.log(900)
+  },[])
+
   useEffect(() => {
     const timestamp = Date.now();
     const timeObj = new Date(timestamp);
