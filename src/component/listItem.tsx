@@ -67,8 +67,8 @@ export default function ListItem({ item, getAllLists }: Props) {
       isDone: item.isDone,
     };
     const { status } = await axios.put<ApiResponse>(
-      `${process.env.REACT_APP_API_URL}/api/todos/${item._id}`,     
-        reqData,  
+      `${process.env.REACT_APP_API_URL}/api/todos/${item._id}`,
+      reqData,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ export default function ListItem({ item, getAllLists }: Props) {
             <input
               ref={editRef}
               className={`task-item edit-block`}
-              placeholder='editing...'
+              placeholder="editing..."
               onKeyDown={(evt) => {
                 if (evt.key === 'Enter') {
                   if (editRef.current?.value === '') alert('Enter something');
@@ -102,6 +102,7 @@ export default function ListItem({ item, getAllLists }: Props) {
                     title: editRef.current?.value,
                     isDone: item.isDone,
                   };
+                  if (editRef.current?.value === item.title)return
                   updateItem(newItem);
                 }
               }}
