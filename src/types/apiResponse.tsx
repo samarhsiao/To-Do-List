@@ -5,6 +5,6 @@ export interface ApiResponse {
 }
 
 export interface ApiReqData {
-  title: string;
+  title: string | undefined;
   isDone: boolean;
 }

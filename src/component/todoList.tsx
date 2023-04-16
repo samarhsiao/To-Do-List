@@ -9,7 +9,6 @@ import Searchbar from './searchbar';
 //import { Fade } from "react-awesome-reveal";
 const ToDoList = () => {
   const [today, setToday] = useState('');
-  const [checkedAll, setCheckedAll] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [errorMessage, setErrorMessage] = useState(false);
   const [allLists, setAllLists] = useState<ToDoItem[]>([]);
@@ -42,7 +41,16 @@ const ToDoList = () => {
       );
       if (status === 200) {
         if (data.data) {
-          setAllLists(data.data);
+          let itemsIsDone = [];
+          let itemsIsDoneYet = [];
+          itemsIsDone = data.data.filter((v:ToDoItem)=>{
+            return v.isDone === true;
+          })
+          itemsIsDoneYet = data.data.filter((v:ToDoItem)=>{
+            return v.isDone !== true;
+          })
+          const result = itemsIsDone.concat(itemsIsDoneYet)
+          setAllLists(result);
         }
       }
       return;

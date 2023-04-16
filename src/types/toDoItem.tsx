@@ -1,5 +1,5 @@
 export interface ToDoItem { 
     _id: string, 
-    title: string, 
+    title: string | undefined, 
     isDone: boolean 
 }
