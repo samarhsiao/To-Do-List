@@ -1,9 +1,5 @@
 import { useState } from 'react';
 
-// interface Props {
-
-// }
-
 const Searchbar = () => {
 
   const [keyword, setKeyword] = useState<string>();

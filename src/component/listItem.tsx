@@ -1,18 +1,18 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { AiOutlineCheck } from 'react-icons/ai';
 import { CiTrash, CiEdit } from 'react-icons/ci';
 import { ToDoItem } from '../types/toDoItem';
 import { ApiResponse, ApiReqData } from '../types/apiResponse';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-interface Props {
+type Props = {
   item: ToDoItem;
   getAllLists: () => void;
 }
 export default function ListItem({ item, getAllLists }: Props) {
   const [isEditing, setIsEditing] = useState(false);
   const editRef = useRef<HTMLInputElement>(null);
-  const [text, setText] = useState<string>('');
+  const [text, setText] = useState<string | undefined>('');
   const checkItem = async function (item: ToDoItem) {
     if (isEditing) return;
     try {
@@ -31,7 +31,7 @@ export default function ListItem({ item, getAllLists }: Props) {
       );
 
       if (status === 200) {
-        //console.log('check response', data);
+        //console.log('check');
         getAllLists();
       }
       return;
@@ -77,6 +77,7 @@ export default function ListItem({ item, getAllLists }: Props) {
     );
     if (status === 200) {
       //TODO:fix rendering problem
+
       setIsEditing(false);
       getAllLists();
     }
@@ -85,15 +86,27 @@ export default function ListItem({ item, getAllLists }: Props) {
   return (
     <li>
       <div className="checkbox col-8" onClick={() => checkItem(item)}>
-        {item.isDone && <AiOutlineCheck style={{ position: 'absolute' }} />}
+        {item.isDone && !isEditing && (
+          <AiOutlineCheck style={{ position: 'absolute' }} />
+        )}
         <input type="checkbox" />
         <label>
           <span className="checkbox-mask"></span>
-          {isEditing ? (
+          {
             <input
               ref={editRef}
-              className={`task-item edit-block`}
+              className={`task-item edit-block ${
+                item.isDone && !isEditing ? 'is-done' : ''
+              }`}
               placeholder="editing..."
+              value={isEditing ? text : item.title}
+              onChange={() => {
+                if (!isEditing) return false;
+                setText(editRef.current?.value);
+              }}
+              onClick={(e) => {
+                if (!isEditing) return e.currentTarget.blur();
+              }}
               onKeyDown={(evt) => {
                 if (evt.key === 'Enter') {
                   if (editRef.current?.value === '') alert('Enter something');
@@ -102,16 +115,12 @@ export default function ListItem({ item, getAllLists }: Props) {
                     title: editRef.current?.value,
                     isDone: item.isDone,
                   };
-                  if (editRef.current?.value === item.title)return
+                  if (editRef.current?.value === item.title) return;
                   updateItem(newItem);
                 }
               }}
             />
-          ) : (
-            <span className={`task-item ${item.isDone ? 'is-done' : ''}`}>
-              {item.title}
-            </span>
-          )}
+          }
         </label>
       </div>
       <CiEdit

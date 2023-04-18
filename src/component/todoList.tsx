@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef, useCallback, memo } from 'react';
 import { RiErrorWarningLine } from 'react-icons/ri';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -43,13 +43,13 @@ const ToDoList = () => {
         if (data.data) {
           let itemsIsDone = [];
           let itemsIsDoneYet = [];
-          itemsIsDone = data.data.filter((v:ToDoItem)=>{
+          itemsIsDone = data.data.filter((v: ToDoItem) => {
             return v.isDone === true;
-          })
-          itemsIsDoneYet = data.data.filter((v:ToDoItem)=>{
+          });
+          itemsIsDoneYet = data.data.filter((v: ToDoItem) => {
             return v.isDone !== true;
-          })
-          const result = itemsIsDone.concat(itemsIsDoneYet)
+          });
+          const result = itemsIsDone.concat(itemsIsDoneYet);
           setAllLists(result);
         }
       }
@@ -148,7 +148,7 @@ const ToDoList = () => {
       <div className="wrapper col-lg-5 col-md-7 col-12 ">
         <div className="col-12">
           <div className="today">&#x1F9AD;{` Happy ${today} !`}</div>
-          <Searchbar/>
+          <Searchbar />
           <ul className="todo-list ui-sortable col-11 col-md-9">
             {allLists.length !== 0 &&
               allLists.map((item, i) => {
@@ -171,7 +171,7 @@ const ToDoList = () => {
                     showCancelButton: true,
                     confirmButtonText: 'Yes',
                     confirmButtonColor: '#060D08',
-                  }).then((result) => {
+                  }).then(function(result) {
                     /* Read more about isConfirmed, isDenied below */
                     if (result.isConfirmed) {
                       deleteAllItems();
@@ -219,4 +219,4 @@ const ToDoList = () => {
   );
 };
 
-export default ToDoList;
+export default memo(ToDoList);
