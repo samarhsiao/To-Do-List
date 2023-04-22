@@ -6,6 +6,7 @@ import ListItem from './listItem';
 import { ToDoItem } from '../types/toDoItem';
 import { ApiResponse, ApiReqData } from '../types/apiResponse';
 import Searchbar from './searchbar';
+
 //import { Fade } from "react-awesome-reveal";
 const ToDoList = () => {
   const [today, setToday] = useState('');
@@ -143,7 +144,7 @@ const ToDoList = () => {
     }
   };
 
-  return (
+  return (<>
     <div className="container">
       <div className="wrapper col-lg-5 col-md-7 col-12 ">
         <div className="col-12">
@@ -215,7 +216,9 @@ const ToDoList = () => {
           )}
         </div>
       </div>
+  
     </div>
+     </>
   );
 };
 
