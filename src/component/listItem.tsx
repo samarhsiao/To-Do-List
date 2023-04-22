@@ -62,7 +62,8 @@ export default function ListItem({ item, getAllLists }: Props) {
   };
 
   const updateItem = async (item: ToDoItem) => {
-    const reqData: ApiReqData = {
+
+    try{const reqData: ApiReqData = {
       title: item.title,
       isDone: item.isDone,
     };
@@ -76,22 +77,38 @@ export default function ListItem({ item, getAllLists }: Props) {
       },
     );
     if (status === 200) {
-      //TODO:fix rendering problem
-
       setIsEditing(false);
       getAllLists();
+    }}catch(err){
+      if (axios.isAxiosError(err)) {
+        Swal.fire({
+          text: `${err}`,
+          icon: 'error',
+          confirmButtonColor: '#060D08',
+        });
+      } else {
+        Swal.fire({
+          text: 'Unexpected error',
+          icon: 'error',
+          confirmButtonColor: '#060D08',
+        });
+      }
     }
   };
 
+  useEffect(()=>{
+    setText(item.title)
+  },[])
+
   return (
     <li>
-      <div className="checkbox col-8" onClick={() => checkItem(item)}>
-        {item.isDone && !isEditing && (
+      <div className="checkbox col-8">
+        {item.isDone && (
           <AiOutlineCheck style={{ position: 'absolute' }} />
         )}
         <input type="checkbox" />
         <label>
-          <span className="checkbox-mask"></span>
+          <span className="checkbox-mask" onClick={() => checkItem(item)}></span>
           {
             <input
               ref={editRef}
@@ -99,7 +116,7 @@ export default function ListItem({ item, getAllLists }: Props) {
                 item.isDone && !isEditing ? 'is-done' : ''
               }`}
               placeholder="editing..."
-              value={isEditing ? text : item.title}
+              value={text}
               onChange={() => {
                 if (!isEditing) return false;
                 setText(editRef.current?.value);
@@ -131,6 +148,7 @@ export default function ListItem({ item, getAllLists }: Props) {
         }}
         onClick={() => {
           setIsEditing(true);
+          setText('');
         }}
       />
       <CiTrash

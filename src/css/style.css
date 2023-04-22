@@ -166,6 +166,7 @@ label .checkbox-mask {
 
 .task-item {
   padding: 0px 4px;
+  cursor: default;
 }
 
 input[type='checkbox'] {
