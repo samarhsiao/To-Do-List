@@ -225,6 +225,7 @@ span {
 
 .is-done {
   text-decoration: line-through;
+  color:#9b9e9c;
 }
 
 .err {
@@ -251,6 +252,15 @@ span {
   display: flex;
   align-items: baseline;
 }
+.modal-body p{
+  color:#868686
+}
+.modal-text{
+  display: flex;
+  justify-content: flex-start;
+}
+
+
 
 @media (min-width: 992px) {
   .container {
