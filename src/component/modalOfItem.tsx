@@ -18,7 +18,6 @@ export default function ModalOfItem({ modalShow, setModalShow, item }: Props) {
         centered
       >
         <Modal.Body>
-          {/* <h4>{item.title}</h4> */}
           <div className="modal-text">
             <p className="col-6">
               <strong>ToDo:</strong>&nbsp;<span>{item.title}</span>

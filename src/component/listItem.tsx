@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { AiOutlineCheck } from 'react-icons/ai';
 import { CiTrash, CiEdit, CiCircleMore } from 'react-icons/ci';
 import { ToDoItem } from '../types/toDoItem';
@@ -7,11 +7,10 @@ import MyModal from './modalOfItem';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 type Props = {
-  item: ToDoItem ;
+  item: ToDoItem;
   getAllLists: () => void;
-  
 };
-export default function ListItem({ item, getAllLists}: Props) {
+export default function ListItem({ item, getAllLists }: Props) {
   const [isEditing, setIsEditing] = useState(false);
   const editRef = useRef<HTMLInputElement>(null);
   const [text, setText] = useState<string | undefined>('');
@@ -127,9 +126,7 @@ export default function ListItem({ item, getAllLists}: Props) {
                   if (!isEditing) return false;
                   setText(editRef.current?.value);
                 }}
-                onClick={(e) => {
-                  if (!isEditing) return e.currentTarget.blur();
-                }}
+                disabled={!isEditing ? true : false}
                 onKeyDown={(evt) => {
                   if (evt.key === 'Enter') {
                     if (editRef.current?.value === '') alert('Enter something');
@@ -142,6 +139,10 @@ export default function ListItem({ item, getAllLists}: Props) {
                     updateItem(newItem);
                   }
                 }}
+                onBlur={() => {
+                  setIsEditing(false);
+                  setText(item.title);
+                }}
               />
             }
           </label>
@@ -152,8 +153,8 @@ export default function ListItem({ item, getAllLists}: Props) {
             height: '1.3em',
             cursor: 'pointer',
           }}
-          onClick={()=>{
-            setModalShow(true)
+          onClick={() => {
+            setModalShow(true);
           }}
         />
         <CiEdit
@@ -163,6 +164,7 @@ export default function ListItem({ item, getAllLists}: Props) {
             cursor: 'pointer',
           }}
           onClick={() => {
+            
             setIsEditing(true);
             setText('');
           }}
@@ -178,7 +180,13 @@ export default function ListItem({ item, getAllLists}: Props) {
           }}
         />
       </li>
-      {modalShow && <MyModal modalShow={modalShow} setModalShow={setModalShow} item={item}/>}
+      {modalShow && (
+        <MyModal
+          modalShow={modalShow}
+          setModalShow={setModalShow}
+          item={item}
+        />
+      )}
     </>
   );
 }
