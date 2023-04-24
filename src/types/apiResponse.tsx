@@ -1,7 +1,9 @@
+import { ToDoItem } from './toDoItem';
+
 export interface ApiResponse {
   status: string;
   message: string;
-  data: [] | null;
+  data: ToDoItem[] | null;
 }
 
 export interface ApiReqData {

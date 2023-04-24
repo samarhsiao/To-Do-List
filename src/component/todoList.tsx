@@ -149,7 +149,7 @@ const ToDoList = () => {
       <div className="wrapper col-lg-5 col-md-7 col-12 ">
         <div className="col-12">
           <div className="today">&#x1F9AD;{` Happy ${today} !`}</div>
-          <Searchbar />
+          <Searchbar setAllLists={setAllLists} getAllLists={getAllLists}/>
           <ul className="todo-list ui-sortable col-11 col-md-9">
             {allLists.length !== 0 &&
               allLists.map((item, i) => {

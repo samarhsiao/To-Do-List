@@ -259,8 +259,26 @@ span {
   display: flex;
   justify-content: flex-start;
 }
-
-
+.form-control{
+  border-radius: 0.375rem 0rem 0rem 0.375rem !important;
+}
+.searchBar{
+  display:flex;
+ 
+  border-radius:0.375rem;
+}
+.search-button{
+  padding:10px;
+  border: #4dff4d .5px solid;
+  border-radius:0rem 0.375rem 0.375rem 0rem;
+  cursor: pointer;
+}
+.clear-border{
+  border-color: #771011;;
+}
+.search-button:active .search-icon{
+  transform: scale(0.8);
+}
 
 @media (min-width: 992px) {
   .container {
