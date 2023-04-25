@@ -12,9 +12,9 @@ type Props = {
 };
 export default function ListItem({ item, getAllLists }: Props) {
   const [isEditing, setIsEditing] = useState(false);
-  const editRef = useRef<HTMLInputElement>(null);
   const [text, setText] = useState<string | undefined>('');
   const [modalShow, setModalShow] = useState(false);
+  const editRef = useRef<HTMLInputElement>(null);
   const checkItem = async function (item: ToDoItem) {
     if (isEditing) return;
     try {
@@ -103,6 +103,12 @@ export default function ListItem({ item, getAllLists }: Props) {
     setText(item.title);
   }, []);
 
+  useEffect(() => {
+    if (isEditing) {
+      editRef.current?.focus();
+    }
+  }, [isEditing]);
+
   return (
     <>
       <li>
@@ -122,20 +128,21 @@ export default function ListItem({ item, getAllLists }: Props) {
                 }`}
                 placeholder="editing..."
                 value={text}
-                onChange={() => {
+                onChange={(e) => {
                   if (!isEditing) return false;
-                  setText(editRef.current?.value);
+                  setText(e.target.value);
                 }}
                 disabled={!isEditing ? true : false}
                 onKeyDown={(evt) => {
                   if (evt.key === 'Enter') {
-                    if (editRef.current?.value === '') alert('Enter something');
+                    if (evt.currentTarget.value === '')
+                      alert('Enter something');
                     const newItem: ToDoItem = {
                       _id: item._id,
-                      title: editRef.current?.value,
+                      title: evt.currentTarget.value,
                       isDone: item.isDone,
                     };
-                    if (editRef.current?.value === item.title) return;
+                    if (evt.currentTarget.value === item.title) return;
                     updateItem(newItem);
                   }
                 }}
@@ -164,7 +171,6 @@ export default function ListItem({ item, getAllLists }: Props) {
             cursor: 'pointer',
           }}
           onClick={() => {
-            
             setIsEditing(true);
             setText('');
           }}
