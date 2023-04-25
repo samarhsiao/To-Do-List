@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ApiResponse } from '../types/apiResponse';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -53,6 +53,12 @@ const Searchbar = ({ setAllLists, getAllLists }: Props) => {
       }
     }
   };
+
+  useEffect(() => {
+    if (keyword) return;
+    getAllLists();
+  }, [keyword]);
+  
   return (
     <>
       <div className="searchBar col-11 col-md-9 mb-5">
@@ -72,13 +78,16 @@ const Searchbar = ({ setAllLists, getAllLists }: Props) => {
             }
           }}
         />
-        <div className={`search-button ${!isComposition && keyword ? 'clear-border' : ''}`}>
+        <div
+          className={`search-button ${
+            !isComposition && keyword ? 'clear-border' : ''
+          }`}
+        >
           {!isComposition && keyword ? (
             <BiX
               style={{ width: '1.3rem', height: '1.3rem', fill: '#771011' }}
               onClick={() => {
                 setKeyword('');
-                getAllLists();
               }}
             />
           ) : (
