@@ -79,6 +79,13 @@ export default function ListItem({ item, getAllLists }: Props) {
         },
       );
       if (status === 200) {
+        Swal.fire(
+         { 
+          title:'Todo updated',
+          icon:'success',
+          confirmButtonColor: '#060D08',
+        }
+        )
         setIsEditing(false);
         getAllLists();
       }

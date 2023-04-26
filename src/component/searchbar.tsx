@@ -8,8 +8,9 @@ import { ToDoItem } from '../types/toDoItem';
 type Props = {
   setAllLists: (allLists: ToDoItem[]) => void;
   getAllLists: () => void;
+  setIsLoading: (isLoading:boolean) => void;
 };
-const Searchbar = ({ setAllLists, getAllLists }: Props) => {
+const Searchbar = ({ setAllLists, getAllLists,setIsLoading }: Props) => {
   const [keyword, setKeyword] = useState<string>('');
   const [isComposition, setIsComposition] = useState<boolean>(false);
 
@@ -20,10 +21,9 @@ const Searchbar = ({ setAllLists, getAllLists }: Props) => {
 
   const getSearchResult = async (value: string) => {
     if (isComposition || !keyword) return;
+    setIsLoading(true);
     try {
-      // const reqData = {
-      //   title: value,
-      // };
+    
       const { status, data } = await axios.get<ApiResponse>(
         `${process.env.REACT_APP_API_URL}/api/todos/search?keyword=${value}`,
         {
@@ -32,12 +32,24 @@ const Searchbar = ({ setAllLists, getAllLists }: Props) => {
           },
         },
       );
-      if (status === 200) {
-        if (data.data) {
-          setAllLists(data.data);
+      
+        
+        if (status === 200) {
+          setIsLoading(false);
+          if (data.data) {
+            const timer: number = window.setTimeout(() => {
+              
+              console.log('timer', timer);
+            }, 300);
+            setAllLists(data.data);
+          }
+        }else if(status === 404){
+          setIsLoading(false);
+          setAllLists([]);
         }
-      }
+         
     } catch (err) {
+      setIsLoading(false);
       if (axios.isAxiosError(err)) {
         Swal.fire({
           text: `${err}`,
