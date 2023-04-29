@@ -8,10 +8,21 @@ import { ToDoItem } from '../types/toDoItem';
 type Props = {
   setAllLists: (allLists: ToDoItem[]) => void;
   getAllLists: () => void;
-  setIsLoading: (isLoading:boolean) => void;
+  setIsLoading: (isLoading: boolean) => void;
+  keyword: string;
+  setKeyword: (keyword: string) => void;
+  isSearching: boolean;
+  setIsSearching: (isSearching: boolean) => void;
 };
-const Searchbar = ({ setAllLists, getAllLists,setIsLoading }: Props) => {
-  const [keyword, setKeyword] = useState<string>('');
+const Searchbar = ({
+  setAllLists,
+  getAllLists,
+  setIsLoading,
+  keyword,
+  setKeyword,
+  isSearching,
+  setIsSearching,
+}: Props) => {
   const [isComposition, setIsComposition] = useState<boolean>(false);
 
   function checkComposition(type: string): void {
@@ -22,8 +33,8 @@ const Searchbar = ({ setAllLists, getAllLists,setIsLoading }: Props) => {
   const getSearchResult = async (value: string) => {
     if (isComposition || !keyword) return;
     setIsLoading(true);
+
     try {
-    
       const { status, data } = await axios.get<ApiResponse>(
         `${process.env.REACT_APP_API_URL}/api/v1/todos/search?keyword=${value}`,
         {
@@ -32,24 +43,24 @@ const Searchbar = ({ setAllLists, getAllLists,setIsLoading }: Props) => {
           },
         },
       );
-      
-        
-        if (status === 200) {
-          setIsLoading(false);
-          if (data.data) {
-            const timer: number = window.setTimeout(() => {
-              
-              console.log('timer', timer);
-            }, 300);
-            setAllLists(data.data);
+
+      if (status === 200) {
+        setIsLoading(false);
+
+        if (data.data) {
+          setAllLists(data.data);
+          if (data.data.length === 0) {
+            setIsSearching(true);
           }
-        }else if(status === 404){
-          setIsLoading(false);
-          setAllLists([]);
         }
-         
+      } else if (status === 404) {
+        setIsLoading(false);
+        setIsSearching(true);
+        setAllLists([]);
+      }
     } catch (err) {
       setIsLoading(false);
+      setIsSearching(true);
       if (axios.isAxiosError(err)) {
         Swal.fire({
           text: `${err}`,
@@ -69,8 +80,9 @@ const Searchbar = ({ setAllLists, getAllLists,setIsLoading }: Props) => {
   useEffect(() => {
     if (keyword) return;
     getAllLists();
+    setIsSearching(false);
   }, [keyword]);
-  
+
   return (
     <>
       <div className="searchBar col-11 col-md-9 mb-5">

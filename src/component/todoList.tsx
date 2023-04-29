@@ -15,6 +15,8 @@ const ToDoList = () => {
   const [errorMessage, setErrorMessage] = useState(false);
   const [allLists, setAllLists] = useState<ToDoItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [keyword, setKeyword] = useState<string>('');
+  const [isSearching, setIsSearching] = useState(false);
   useEffect(() => {
     const timestamp = Date.now();
     const timeObj = new Date(timestamp);
@@ -45,8 +47,8 @@ const ToDoList = () => {
       if (status === 200) {
         const timer: number = window.setTimeout(() => {
           setIsLoading(false);
-          console.log('timer', timer);
-        }, 300);
+          //console.log('timer', timer);
+        }, 100);
         if (data.data) {
           let itemsIsDone = [];
           let itemsIsDoneYet = [];
@@ -157,13 +159,23 @@ const ToDoList = () => {
         <div className="wrapper col-lg-5 col-md-7 col-12 ">
           <div className="col-12">
             <div className="today">&#x1F9AD;{` Happy ${today} !`}</div>
-            <Searchbar setAllLists={setAllLists} getAllLists={getAllLists} setIsLoading={setIsLoading}/>
+            <Searchbar
+              setAllLists={setAllLists}
+              getAllLists={getAllLists}
+              setIsLoading={setIsLoading}
+              keyword={keyword} 
+              setKeyword={setKeyword}
+              isSearching={isSearching}
+              setIsSearching={setIsSearching}
+            />
             {isLoading ? (
               <Spinner />
             ) : (
               <>
                 <ul className="todo-list ui-sortable col-11 col-md-9">
-                  {allLists.length == 0?<p className="notFound">Couldn&apos;t find any result</p>:
+                  {allLists.length == 0 && isSearching ? (
+                    <p className="notFound">Couldn&apos;t find any result</p>
+                  ) : (
                     allLists.map((item, i) => {
                       return (
                         <ListItem
@@ -172,7 +184,8 @@ const ToDoList = () => {
                           getAllLists={getAllLists}
                         />
                       );
-                    })}
+                    })
+                  )}
                 </ul>
                 <div className="buttonWrapper col-11 col-md-9">
                   {allLists.length !== 0 && (
