@@ -59,6 +59,13 @@ export default function ListItem({ item, getAllLists }: Props) {
       `${process.env.REACT_APP_API_URL}/api/v1/todos/${id}`,
     );
     if (status === 200) {
+      Swal.fire(
+        { 
+         title:'Todo deleted',
+         icon:'success',
+         confirmButtonColor: '#060D08',
+       }
+       )
       getAllLists();
     }
   };
