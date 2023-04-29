@@ -35,7 +35,7 @@ const ToDoList = () => {
     setIsLoading(true);
     try {
       const { data, status } = await axios.get<ApiResponse>(
-        `${process.env.REACT_APP_API_URL}/api/todos`,
+        `${process.env.REACT_APP_API_URL}/api/v1/todos`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ const ToDoList = () => {
       };
       try {
         const { status } = await axios.post(
-          `${process.env.REACT_APP_API_URL}/api/todos`,
+          `${process.env.REACT_APP_API_URL}/api/v1/todos`,
           reqData,
           {
             headers: {
@@ -128,7 +128,7 @@ const ToDoList = () => {
   const deleteAllItems = async () => {
     try {
       const { status } = await axios.delete<ApiResponse>(
-        `${process.env.REACT_APP_API_URL}/api/todos`,
+        `${process.env.REACT_APP_API_URL}/api/v1/todos`,
       );
       if (status === 200) {
         getAllLists();

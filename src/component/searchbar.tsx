@@ -25,7 +25,7 @@ const Searchbar = ({ setAllLists, getAllLists,setIsLoading }: Props) => {
     try {
     
       const { status, data } = await axios.get<ApiResponse>(
-        `${process.env.REACT_APP_API_URL}/api/todos/search?keyword=${value}`,
+        `${process.env.REACT_APP_API_URL}/api/v1/todos/search?keyword=${value}`,
         {
           headers: {
             'Content-Type': 'application/json',

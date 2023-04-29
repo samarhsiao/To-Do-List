@@ -23,7 +23,7 @@ export default function ListItem({ item, getAllLists }: Props) {
         isDone: !item.isDone,
       };
       const { status } = await axios.patch<ApiResponse>(
-        `${process.env.REACT_APP_API_URL}/api/todos/${item._id}`,
+        `${process.env.REACT_APP_API_URL}/api/v1/todos/${item._id}`,
         reqData,
         {
           headers: {
@@ -56,7 +56,7 @@ export default function ListItem({ item, getAllLists }: Props) {
 
   const deleteItem = async (id: string) => {
     const { status } = await axios.delete<ApiResponse>(
-      `${process.env.REACT_APP_API_URL}/api/todos/${id}`,
+      `${process.env.REACT_APP_API_URL}/api/v1/todos/${id}`,
     );
     if (status === 200) {
       getAllLists();
@@ -70,7 +70,7 @@ export default function ListItem({ item, getAllLists }: Props) {
         isDone: item.isDone,
       };
       const { status } = await axios.put<ApiResponse>(
-        `${process.env.REACT_APP_API_URL}/api/todos/${item._id}`,
+        `${process.env.REACT_APP_API_URL}/api/v1/todos/${item._id}`,
         reqData,
         {
           headers: {
