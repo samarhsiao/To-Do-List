@@ -7,7 +7,9 @@ import { ToDoItem } from '../types/toDoItem';
 import { ApiResponse, ApiReqData } from '../types/apiResponse';
 import Searchbar from './searchbar';
 import Spinner from './spinner';
-import { setTimeout } from 'timers/promises';
+import MemberAvatar from './memberAvatar';
+import ModalOfLogin from './modalOfLogin';
+
 //import { Fade } from "react-awesome-reveal";
 const ToDoList = () => {
   const [today, setToday] = useState('');
@@ -17,6 +19,8 @@ const ToDoList = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [keyword, setKeyword] = useState<string>('');
   const [isSearching, setIsSearching] = useState(false);
+  const [isMemberLogin, setIsMemberLogin] = useState(false);
+  const [showLoginForm, setShowLoginForm] = useState(false);
   useEffect(() => {
     const timestamp = Date.now();
     const timeObj = new Date(timestamp);
@@ -158,12 +162,18 @@ const ToDoList = () => {
       <div className="container">
         <div className="wrapper col-lg-5 col-md-7 col-12 ">
           <div className="col-12">
-            <div className="today">&#x1F9AD;{` Happy ${today} !`}</div>
+            <div className="member-wrapper">
+              <MemberAvatar setShowLoginForm={setShowLoginForm}
+              showLoginForm={showLoginForm}/>
+              {isMemberLogin && (
+                <div className="today ml-3">&#x1F9AD;{` Happy ${today} !`}</div>
+              )}
+            </div>
             <Searchbar
               setAllLists={setAllLists}
               getAllLists={getAllLists}
               setIsLoading={setIsLoading}
-              keyword={keyword} 
+              keyword={keyword}
               setKeyword={setKeyword}
               isSearching={isSearching}
               setIsSearching={setIsSearching}
@@ -245,6 +255,7 @@ const ToDoList = () => {
             )}
           </div>
         </div>
+        {showLoginForm && <ModalOfLogin setShowLoginForm={setShowLoginForm}/>}
       </div>
     </>
   );
